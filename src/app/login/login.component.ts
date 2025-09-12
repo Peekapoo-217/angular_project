@@ -56,9 +56,4 @@ export class LoginComponent {
     this.isSubmitted = false;
   }
 
-  // Hàm reset form
-  onReset() {
-    this.loginForm.reset();
-    this.isSubmitted = false;
-  }
 }
