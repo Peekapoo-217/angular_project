@@ -1,0 +1,102 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Header -->
+    <div class="login-header">
+      <h2>Đăng Nhập</h2>
+      <p>Chào mừng bạn trở lại! Vui lòng đăng nhập vào tài khoản của bạn.</p>
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [class.is-invalid]="isSubmitted && f['email'].errors"
+            placeholder="Nhập email của bạn"
+          >
+          <i class="input-icon email-icon">📧</i>
+        </div>
+        <!-- Error messages cho email -->
+        <div *ngIf="isSubmitted && f['email'].errors" class="error-message">
+          <small *ngIf="f['email'].errors?.['required']">Email là bắt buộc</small>
+          <small *ngIf="f['email'].errors?.['email']">Email không hợp lệ</small>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <div class="input-wrapper">
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.is-invalid]="isSubmitted && f['password'].errors"
+            placeholder="Nhập mật khẩu"
+          >
+          <button 
+            type="button" 
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+          >
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        <!-- Error messages cho password -->
+        <div *ngIf="isSubmitted && f['password'].errors" class="error-message">
+          <small *ngIf="f['password'].errors?.['required']">Mật khẩu là bắt buộc</small>
+          <small *ngIf="f['password'].errors?.['minlength']">Mật khẩu phải có ít nhất 6 ký tự</small>
+        </div>
+      </div>
+
+      <!-- Remember Me Checkbox -->
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="rememberMe">
+          <span class="checkmark"></span>
+          Ghi nhớ đăng nhập
+        </label>
+        <a href="#" class="forgot-password">Quên mật khẩu?</a>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="loginForm.invalid && isSubmitted"
+        >
+          Đăng Nhập
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="onReset()"
+        >
+          Đặt Lại
+        </button>
+      </div>
+
+      <!-- Additional Links -->
+      <div class="form-footer">
+        <p>Chưa có tài khoản? <a href="#" class="signup-link">Đăng ký ngay</a></p>
+      </div>
+    </form>
+
+    <!-- Form Status Display (for demo) -->
+    <div class="form-status" *ngIf="loginForm.value">
+      <h4>Trạng thái Form (Demo):</h4>
+      <p><strong>Form Valid:</strong> {{ loginForm.valid }}</p>
+      <p><strong>Form Values:</strong></p>
+      <pre>{{ loginForm.value | json }}</pre>
+    </div>
+  </div>
+</div>
