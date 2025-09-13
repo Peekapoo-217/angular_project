@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'app-navigation',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  templateUrl: './navigation.html',
+  styleUrl: './navigation.scss'
 })
-export class FooterComponent {
-  currentYear = new Date().getFullYear();
+export class NavigationComponent {
+
 }

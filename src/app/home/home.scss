@@ -58,6 +58,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Fallback for browsers that don't support backdrop-filter */
+  background: rgba(255, 255, 255, 0.2);
+  /* Webkit prefix for Safari and older Chrome */
+  -webkit-backdrop-filter: blur(10px);
+  /* Standard property */
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.2);
 }

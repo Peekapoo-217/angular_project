@@ -1,5 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { LayoutComponent } from './layout/layout.component';
+import { RouterOutlet } from '@angular/router';
+import { LayoutComponent } from './layout/layout';
+import { Stock } from './model/stock';
+import { StockItem } from './stock/stock-item/stock-item';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +11,4 @@ import { LayoutComponent } from './layout/layout.component';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('angular_project');
 }

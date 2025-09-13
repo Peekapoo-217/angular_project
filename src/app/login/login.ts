@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss']
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -44,13 +44,13 @@ export class LoginComponent {
 
     // Lấy dữ liệu từ form
     const formData = this.loginForm.value;
-    
+
     // Giả lập process đăng nhập
     console.log('Đang đăng nhập với:', formData);
-    
+
     // Hiển thị thông báo thành công
     alert(`Đăng nhập thành công!\nEmail: ${formData.email}\nRemember Me: ${formData.rememberMe}`);
-    
+
     // Reset form sau khi submit thành công
     this.loginForm.reset();
     this.isSubmitted = false;
