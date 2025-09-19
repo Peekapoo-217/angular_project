@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
     standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './home.html',
-    styleUrl: './home.scss'
+    styleUrls: ['./home.scss']
 })
 export class HomeComponent {
     title = 'Chào mừng đến với Angular Project';

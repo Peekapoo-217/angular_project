@@ -1,0 +1,51 @@
+<div class="stock-container">
+  <div class="create-stock">
+    <h2>Quản lý cổ phiếu</h2>
+    <button (click)="showCreateForm = !showCreateForm" class="add-stock-btn">
+      {{ showCreateForm ? 'Đóng' : 'Thêm cổ phiếu mới' }}
+    </button>
+
+    <app-stock-create *ngIf="showCreateForm" (stockAdded)="onStockAdded($event)" (cancel)="showCreateForm = false">
+    </app-stock-create>
+  </div>
+
+  <div class="stock-table" *ngIf="stocks.length > 0">
+    <h3>Danh sách cổ phiếu</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Mã</th>
+          <th>Tên</th>
+          <th>Giá hiện tại</th>
+          <th>Giá trước đó</th>
+          <th>Thay đổi</th>
+          <th>Sàn</th>
+          <th>Yêu thích</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stock of stocks" [class.positive]="stock.isPositiveChange()"
+          [class.negative]="!stock.isPositiveChange()">
+          <td>{{ stock.code }}</td>
+          <td>{{ stock.name }}</td>
+          <td>{{ stock.price | number:'1.2-2' }}</td>
+          <td>{{ stock.previousPrice | number:'1.2-2' }}</td>
+          <td [class.positive]="stock.isPositiveChange()" [class.negative]="!stock.isPositiveChange()">
+            {{ (stock.price - stock.previousPrice) | number:'1.2-2' }} ({{ ((stock.price - stock.previousPrice) /
+            stock.previousPrice * 100) | number:'1.2-2' }}%)
+          </td>
+          <td>{{ stock.exchange }}</td>
+          <td>
+            <button (click)="toggleFavorite(stock)" [class.favorite]="stock.favorite" class="favorite-btn">
+              {{ stock.favorite ? '★' : '☆' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="no-stocks" *ngIf="stocks.length === 0">
+    <p>Chưa có cổ phiếu nào. Hãy thêm cổ phiếu mới!</p>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="stock-form">
+  <h2>Thêm cổ phiếu mới</h2>
+  <form (ngSubmit)="onSubmit()" #stockForm="ngForm">
+    <div class="form-group">
+      <label for="name">Tên cổ phiếu:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="newStock.name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="code">Mã cổ phiếu:</label>
+      <input type="text" id="code" name="code" [(ngModel)]="newStock.code" required>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Giá hiện tại:</label>
+      <input type="number" id="price" name="price" [(ngModel)]="newStock.price" required min="0" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label for="previousPrice">Giá trước đó:</label>
+      <input type="number" id="previousPrice" name="previousPrice" [(ngModel)]="newStock.previousPrice" required min="0"
+        step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label for="exchange">Sàn giao dịch:</label>
+      <select id="exchange" name="exchange" [(ngModel)]="newStock.exchange" required>
+        <option *ngFor="let exchange of exchanges" [value]="exchange">{{exchange}}</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="!stockForm.form.valid">Thêm cổ phiếu</button>
+      <button type="button" (click)="onCancel()">Hủy</button>
+    </div>
+  </form>
+</div>

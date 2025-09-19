@@ -11,23 +11,11 @@ import { Stock } from '../../model/stock';
 })
 export class StockItem implements OnInit {
   public stock!: Stock;
-  // public name!: string;
-  // public code!: string;
-
-  // public price!: number;
-  // public previousPrice!: number;
-  // public positiveChange!: boolean;
   public favorite!: boolean;
 
   constructor() { }
 
   ngOnInit() {
-    // this.name = 'Test Stock';
-    // this.code = 'TST';
-    // this.price = 85;
-    // this.previousPrice = 80;
-    // this.positiveChange = this.price >= this.previousPrice;
-    // this.favorite = false;
     this.stock = new Stock('Test Stock', 'TST', 85, 80);
   }
 
