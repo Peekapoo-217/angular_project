@@ -1,10 +1,18 @@
 <div class="stock-form">
   <h2>Thêm cổ phiếu mới</h2>
   <form (ngSubmit)="onSubmit()" #stockForm="ngForm">
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="name">Tên cổ phiếu:</label>
       <input type="text" id="name" name="name" [(ngModel)]="newStock.name" required>
+    </div> -->
+    <div class="form-group">
+      <label for="name">Tên cổ phiếu:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="newStock.name" #nameCtrl="ngModel" required>
+      <div class="error" *ngIf="nameCtrl.invalid && nameCtrl.touched">
+        Tên không được để trống
+      </div>
     </div>
+
 
     <div class="form-group">
       <label for="code">Mã cổ phiếu:</label>

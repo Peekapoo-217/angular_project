@@ -4,5 +4,7 @@
         [class.negative]="stock.price < stock.previousPrice">
         ${{ stock.price }}
     </div>
-    <button (click)="toggleFavorite()" [disabled]="stock.favorite">Add to favorite</button>
+    <button (click)="stock.favorite = true" [disabled]="stock.favorite">
+        Add to favorite
+    </button>
 </div>

@@ -9,8 +9,19 @@
     </app-stock-create>
   </div>
 
-  <div class="stock-table" *ngIf="stocks.length > 0">
+  <div class="view-controls" *ngIf="stocks.length > 0">
     <h3>Danh sách cổ phiếu</h3>
+    <div class="view-toggle">
+      <button [class.active]="showTableView" (click)="showTableView = true" class="toggle-option">
+        <span>Table</span>
+      </button>
+      <button [class.active]="!showTableView" (click)="showTableView = false" class="toggle-option">
+        <span>Card</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="stock-table" *ngIf="stocks.length > 0 && showTableView">
     <table>
       <thead>
         <tr>
@@ -45,7 +56,15 @@
     </table>
   </div>
 
+  <div class="stock-items" *ngIf="!showTableView">
+    <div *ngFor="let stock of stocks">
+      <app-stock-item [stock]="stock" [favorite]="stock.favorite"></app-stock-item>
+    </div>
+  </div>
+
   <div class="no-stocks" *ngIf="stocks.length === 0">
     <p>Chưa có cổ phiếu nào. Hãy thêm cổ phiếu mới!</p>
   </div>
+
+
 </div>

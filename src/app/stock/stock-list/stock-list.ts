@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StockCreateComponent } from '../stock-create/stock-create';
 import { Stock } from '../../model/stock';
+import { StockItem } from '../stock-item/stock-item';
 
 @Component({
   selector: 'app-stock-list',
   standalone: true,
-  imports: [CommonModule, StockCreateComponent],
+  imports: [CommonModule, StockCreateComponent, StockItem],
   templateUrl: './stock-list.html',
   styleUrls: ['./stock-list.scss']
 })
 export class StockListComponent implements OnInit {
   stocks: Stock[] = [];
   showCreateForm = false;
+  showTableView = true; // true for table view, false for card view
 
   ngOnInit() {
     const sampleStock1 = new Stock('Công ty Cổ phần FPT', 'FPT', 75.5, 72.3, 'HOSE');
@@ -29,5 +31,9 @@ export class StockListComponent implements OnInit {
 
   toggleFavorite(stock: Stock) {
     stock.favorite = !stock.favorite;
+  }
+
+  toggleView() {
+    this.showTableView = !this.showTableView;
   }
 }
