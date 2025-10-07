@@ -1,4 +1,6 @@
 <div class="stock-container">
+  <div *ngIf="error" class="info">{{ error }}</div>
+
   <div class="create-stock">
     <h2>Quản lý cổ phiếu</h2>
     <button (click)="showCreateForm = !showCreateForm" class="add-stock-btn">
@@ -7,6 +9,7 @@
 
     <app-stock-create *ngIf="showCreateForm" (stockAdded)="onStockAdded($event)" (cancel)="showCreateForm = false">
     </app-stock-create>
+
   </div>
 
   <div class="view-controls" *ngIf="stocks.length > 0">
@@ -21,6 +24,12 @@
     </div>
   </div>
 
+  <div class="search-bar" *ngIf="stocks.length > 0">
+    <input type="text" placeholder="Tìm kiếm theo tên hoặc mã..." [(ngModel)]="searchTerm" />
+    <button (click)="onSearch()">Tìm</button>
+  </div>
+
+
   <div class="stock-table" *ngIf="stocks.length > 0 && showTableView">
     <table>
       <thead>
@@ -32,10 +41,11 @@
           <th>Thay đổi</th>
           <th>Sàn</th>
           <th>Yêu thích</th>
+          <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let stock of stocks" [class.positive]="stock.isPositiveChange()"
+        <tr *ngFor="let stock of filteredStocks" [class.positive]="stock.isPositiveChange()"
           [class.negative]="!stock.isPositiveChange()">
           <td>{{ stock.code }}</td>
           <td>{{ stock.name }}</td>
@@ -47,14 +57,21 @@
           </td>
           <td>{{ stock.exchange }}</td>
           <td>
-            <button (click)="toggleFavorite(stock)" [class.favorite]="stock.favorite" class="favorite-btn">
+            <button (click)="stock.favorite = !stock.favorite" [class.favorite]="stock.favorite" class="favorite-btn">
               {{ stock.favorite ? '★' : '☆' }}
             </button>
           </td>
+          <td class="actions">
+            <button class="view" (click)="onView(stock)">Xem</button>
+            <button class="edit" (click)="onEdit(stock)">Cập nhật</button>
+            <button class="delete" (click)="onDelete(stock)">Xóa</button>
+          </td>
+
         </tr>
       </tbody>
     </table>
   </div>
+
 
   <div class="stock-items" *ngIf="!showTableView">
     <div *ngFor="let stock of stocks">
@@ -64,6 +81,48 @@
 
   <div class="no-stocks" *ngIf="stocks.length === 0">
     <p>Chưa có cổ phiếu nào. Hãy thêm cổ phiếu mới!</p>
+  </div>
+
+
+
+  <!-- Dialog Xem chi tiết -->
+  <div class="dialog-backdrop" *ngIf="showViewDialog">
+    <div class="dialog">
+      <h3>Chi tiết cổ phiếu</h3>
+      <p><strong>Mã:</strong> {{ selectedStock?.code }}</p>
+      <p><strong>Tên:</strong> {{ selectedStock?.name }}</p>
+      <p><strong>Giá hiện tại:</strong> {{ selectedStock?.price | number:'1.2-2' }}</p>
+      <p><strong>Giá trước đó:</strong> {{ selectedStock?.previousPrice | number:'1.2-2' }}</p>
+      <p><strong>Sàn:</strong> {{ selectedStock?.exchange }}</p>
+      <button (click)="closeViewDialog()">Đóng</button>
+    </div>
+  </div>
+
+  <!-- Dialog Cập nhật -->
+  <div class="dialog-backdrop" *ngIf="showEditDialog">
+    <div class="dialog">
+      <h3>Cập nhật cổ phiếu</h3>
+      <label>
+        Tên:
+        <input [(ngModel)]="selectedStock!.name" />
+      </label>
+      <label>
+        Giá hiện tại:
+        <input type="number" [(ngModel)]="selectedStock!.price" />
+      </label>
+      <label>
+        Giá trước đó:
+        <input type="number" [(ngModel)]="selectedStock!.previousPrice" />
+      </label>
+      <label>
+        Sàn:
+        <input [(ngModel)]="selectedStock!.exchange" />
+      </label>
+      <div class="dialog-actions">
+        <button (click)="saveEdit()">Lưu</button>
+        <button (click)="showEditDialog=false; selectedStock=null">Hủy</button>
+      </div>
+    </div>
   </div>
 
 

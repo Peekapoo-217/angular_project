@@ -7,10 +7,14 @@ export class Stock {
         public code: string,
         public price: number,
         public previousPrice: number,
-        exchange?: string
-    ) { 
+        exchange?: string,
+        favorite?: boolean
+    ) {
         if (exchange) {
             this.exchange = exchange;
+        }
+        if (favorite !== undefined) {
+            this.favorite = favorite;
         }
     }
 

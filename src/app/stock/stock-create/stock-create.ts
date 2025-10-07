@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Stock } from '../../model/stock';
+import { StockService } from '../../services/stock';
 
 @Component({
   selector: 'app-stock-create',
-  imports: [FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
+  standalone: true,
   templateUrl: './stock-create.html',
   styleUrl: './stock-create.scss'
 })
@@ -14,21 +16,63 @@ export class StockCreateComponent {
   @Output() cancel = new EventEmitter<void>();
 
   exchanges = ['OKX', 'BINANCE', 'BITCOIN', 'HOSE'];
-  newStock: Stock;
+  stockForm: FormGroup;
 
-  constructor() {
-    this.newStock = new Stock('', '', 0, 0, 'HOSE');
-    this.newStock.favorite = false;
+  loading: boolean = false;
+  message: string = '';
+
+
+  constructor(
+    private fb: FormBuilder,
+    private stockService: StockService) {
+    this.stockForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      code: ['', [Validators.required, Validators.minLength(2)]],
+      price: [0, [Validators.required, Validators.min(0)]],
+      previousPrice: [0, [Validators.required, Validators.min(0)]],
+      exchange: ['HOSE', [Validators.required]]
+    });
+  }
+
+  createStock() {
+    if (this.stockForm.valid) {
+      const formValue = this.stockForm.value;
+      const stock = new Stock(
+        formValue.name,
+        formValue.code,
+        formValue.price,
+        formValue.previousPrice,
+        formValue.exchange
+      );
+      stock.favorite = false;
+
+      this.stockService.createStock(stock).subscribe({
+        next: () => {
+          this.stockAdded.emit(stock);
+          this.message = `Successfully ${stock.code}!`;
+          this.loading = false;
+        },
+        error: (err) => {
+          alert(err.message);
+        }
+      });
+    }
   }
 
   onSubmit() {
-    this.stockAdded.emit(new Stock(
-      this.newStock.name,
-      this.newStock.code,
-      this.newStock.price,
-      this.newStock.previousPrice,
-      this.newStock.exchange
-    ));
+    if (this.stockForm.valid) {
+      const formValue = this.stockForm.value;
+      const stock = new Stock(
+        formValue.name,
+        formValue.code,
+        formValue.price,
+        formValue.previousPrice,
+        formValue.exchange
+      );
+      stock.favorite = false;
+      this.stockAdded.emit(stock);
+      this.stockForm.reset({ exchange: 'HOSE' });
+    }
   }
 
   onCancel() {

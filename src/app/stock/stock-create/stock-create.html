@@ -1,45 +1,56 @@
 <div class="stock-form">
   <h2>Thêm cổ phiếu mới</h2>
-  <form (ngSubmit)="onSubmit()" #stockForm="ngForm">
-    <!-- <div class="form-group">
-      <label for="name">Tên cổ phiếu:</label>
-      <input type="text" id="name" name="name" [(ngModel)]="newStock.name" required>
-    </div> -->
+
+  <div *ngIf="loading" class="info">{{ loading }}</div>
+  <div *ngIf="message" class="info">{{ message }}</div>
+
+  <form [formGroup]="stockForm" (ngSubmit)="createStock()">
     <div class="form-group">
       <label for="name">Tên cổ phiếu:</label>
-      <input type="text" id="name" name="name" [(ngModel)]="newStock.name" #nameCtrl="ngModel" required>
-      <div class="error" *ngIf="nameCtrl.invalid && nameCtrl.touched">
-        Tên không được để trống
+      <input id="name" type="text" formControlName="name" />
+      <div class="error" *ngIf="stockForm.get('name')?.invalid && stockForm.get('name')?.touched">
+        <small *ngIf="stockForm.get('name')?.errors?.['required']">Name is required</small>
+        <small *ngIf="stockForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters long</small>
       </div>
     </div>
 
-
     <div class="form-group">
       <label for="code">Mã cổ phiếu:</label>
-      <input type="text" id="code" name="code" [(ngModel)]="newStock.code" required>
+      <input id="code" type="text" formControlName="code" />
+      <div class="error" *ngIf="stockForm.get('code')?.invalid && stockForm.get('code')?.touched">
+        <small *ngIf="stockForm.get('code')?.errors?.['required']">Code is required</small>
+        <small *ngIf="stockForm.get('code')?.errors?.['minlength']">Code must be at least 2 characters long</small>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="price">Giá hiện tại:</label>
-      <input type="number" id="price" name="price" [(ngModel)]="newStock.price" required min="0" step="0.01">
+      <input id="price" type="number" formControlName="price" step="0.01" />
+      <div class="error" *ngIf="stockForm.get('price')?.invalid && stockForm.get('price')?.touched">
+        <small *ngIf="stockForm.get('price')?.errors?.['required']">Price is required</small>
+        <small *ngIf="stockForm.get('price')?.errors?.['min']">Price must be a positive number</small>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="previousPrice">Giá trước đó:</label>
-      <input type="number" id="previousPrice" name="previousPrice" [(ngModel)]="newStock.previousPrice" required min="0"
-        step="0.01">
+      <input id="previousPrice" type="number" formControlName="previousPrice" step="0.01" />
+      <div class="error" *ngIf="stockForm.get('previousPrice')?.invalid && stockForm.get('previousPrice')?.touched">
+        <small *ngIf="stockForm.get('previousPrice')?.errors?.['required']">Previous price is required</small>
+        <small *ngIf="stockForm.get('previousPrice')?.errors?.['min']">Previous price must be a positive number</small>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="exchange">Sàn giao dịch:</label>
-      <select id="exchange" name="exchange" [(ngModel)]="newStock.exchange" required>
-        <option *ngFor="let exchange of exchanges" [value]="exchange">{{exchange}}</option>
+      <select id="exchange" formControlName="exchange">
+        <option *ngFor="let exchange of exchanges" [value]="exchange">{{ exchange }}</option>
       </select>
     </div>
 
     <div class="form-actions">
-      <button type="submit" [disabled]="!stockForm.form.valid">Thêm cổ phiếu</button>
-      <button type="button" (click)="onCancel()">Hủy</button>
+      <button type="submit" [disabled]="stockForm.invalid">Add</button>
+      <button type="button" (click)="onCancel()">Cancel</button>
     </div>
   </form>
 </div>

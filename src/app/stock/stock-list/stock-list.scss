@@ -172,11 +172,56 @@ tr:hover {
   }
 }
 
-
 //stock-item
 .stock-items {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
+}
+
+.stock-table td.actions {
+  display: flex;
+  gap: 8px;
+  /* khoảng cách giữa các nút */
+}
+
+.stock-table td.actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+/* Nút Xem - màu xanh nhẹ */
+.stock-table td.actions button.view {
+  background-color: #d0ebff;
+  color: #0d6efd;
+}
+
+.stock-table td.actions button.view:hover {
+  background-color: #a5d8ff;
+}
+
+/* Nút Cập nhật - màu vàng nhẹ */
+.stock-table td.actions button.edit {
+  background-color: #fff3bf;
+  color: #d39e00;
+}
+
+.stock-table td.actions button.edit:hover {
+  background-color: #ffe066;
+}
+
+/* Nút Xóa - màu đỏ nhạt */
+.stock-table td.actions button.delete {
+  background-color: #ffc9c9;
+  color: #dc3545;
+}
+
+.stock-table td.actions button.delete:hover {
+  background-color: #ff7b7b;
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LayoutComponent } from './layout/layout';
+import { StockService } from './services/stock';
 
 
 @Component({
@@ -8,7 +9,8 @@ import { LayoutComponent } from './layout/layout';
   standalone: true,
   imports: [LayoutComponent, RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
+  providers: [StockService]
 })
 export class App {
 }
